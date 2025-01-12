@@ -22,7 +22,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
             # Navigate to your project directory
-            cd /home/ec2-user/myproject
+            cd /home/ec2-user/Cracker-backend
 
             # Pull the latest code from GitHub (ensure git is installed)
             git pull origin main

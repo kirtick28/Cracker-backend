@@ -1,0 +1,35 @@
+name: CI/CD Pipeline for EC2 Deployment
+
+on:
+  push:
+    branches:
+      - main # Adjust if you are using a different branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+            # Navigate to your project directory
+            cd /home/ec2-user/myproject
+
+            # Pull the latest code from GitHub (ensure git is installed)
+            git pull origin main
+
+            # Install dependencies
+            npm install
+
+            # Restart the application (assumes you're using PM2)
+            pm2 restart all
+          EOF

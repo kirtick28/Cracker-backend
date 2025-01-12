@@ -35,6 +35,6 @@ mongoose
   });
 
 app.listen(8000, '0.0.0.0', () => {
-  console.log('Changes made');
+  console.log('Changes made in local');
   console.log('Running on port 8000');
 });

@@ -35,6 +35,6 @@ mongoose
   });
 
 app.listen(8000, '0.0.0.0', () => {
-  console.log('Changes made in the local machine... should reflect on ec2 ');
+  console.log('Changes made');
   console.log('Running on port 8000');
 });

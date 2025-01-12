@@ -6,7 +6,6 @@ const generatePDF = async (pdfParams) => {
     const customer = pdfParams.customerDetails;
     const order = pdfParams.orderDetails;
 
-    // Launch Puppeteer with necessary arguments for AWS EC2
     const browser = await puppeteer.launch({
       headless: true,
       args: [
@@ -20,30 +19,20 @@ const generatePDF = async (pdfParams) => {
         '--disable-gpu'
       ]
     });
-
     const page = await browser.newPage();
-
-    // Generate HTML content dynamically
     await page.setContent(generateHTML(company, customer, order), {
       waitUntil: 'networkidle0'
     });
 
-    // Define the PDF path
-    const pdfPath = `invoices/invoice_${order.id}.pdf`;
-
-    // Generate the PDF
     await page.pdf({
-      path: pdfPath,
+      path: `invoice.pdf`,
       format: 'A4',
       printBackground: true,
       margin: { top: '20px', bottom: '20px', left: '20px', right: '20px' }
     });
 
-    console.log(`PDF generated successfully: ${pdfPath}`);
+    console.log('PDF generated successfully!');
     await browser.close();
-
-    // Return the PDF path for further use
-    return pdfPath;
   } catch (error) {
     console.error('Error generating PDF:', error);
     throw error;
